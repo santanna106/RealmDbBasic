@@ -11,6 +11,8 @@ import {Container,
 import Books from './Books';
 import getRealm from './services/realm';
 
+import BookRepository from './Repository/BookRepository'
+
 import {Keyboard} from 'react-native'
 
 export default function App() {
@@ -33,18 +35,14 @@ export default function App() {
  },[])
 
  saveBook = async (data) =>{
-     const realm = await getRealm();
-     const id = realm.objects('Book').sorted('id',true).length > 0 ? realm.objects('Book').sorted('id',true)[0].id + 1: 1;
 
-    const dadosLivro = {
-        id:id,
+    const rep = new BookRepository();
+     const dadosLivro = {
+        id:0,
         nome:data.nome,
         preco: data.preco
     }
-    
-    realm.write(() => {
-        realm.create('Book',dadosLivro)
-    })
+     rep.add(dadosLivro);
  }
 
  
